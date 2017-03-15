@@ -9,8 +9,8 @@ setting -> Integrationsからトークンを生成する。
 App DirectoryからHubotをインストールしトークンを生成する。
 
 ## 実行前に設定する変数
-Windowsなら`set ~~=xx`,
-Mac,Linuxは`export ~~=xx`で設定、
+Windowsなら`$ set ~~=xx`,
+Mac,Linuxは`$ export ~~=xx`で設定、
 HerokuならSetting->Reveal Config Varsから
 
 * `HUBOT_ADAPTER=slack`, 
@@ -20,7 +20,7 @@ HerokuならSetting->Reveal Config Varsから
 * `HUBOT_GITHUB_TOKEN=GitHubのトークン`, 
 
 ## 実行方法
-`./bin/hubot`
+`$ ./bin/hubot`
 
 ## scripts/内構成
 ### exapmle.coffee
@@ -32,6 +32,8 @@ HerokuならSetting->Reveal Config Varsから
 ### github-commiters.coffee
 https://github.com/github/hubot-scripts/blob/master/src/scripts/github-commiters.coffee
 から利用。
+
 `revad-bot repo commiters <repo>`
+
 と送るとコミッター情報を返す。
 `<repo>`はリポジトリ名(例：OSSresearch-SuperTeam/REVAD-bot)
