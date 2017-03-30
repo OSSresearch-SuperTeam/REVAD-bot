@@ -18,6 +18,7 @@
 #
 # Author:
 #   vquaiato
+# coffeelint: disable=max_line_length
 
 module.exports = (robot) ->
   github = require("githubot")(robot)

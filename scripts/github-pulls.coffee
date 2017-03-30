@@ -1,3 +1,4 @@
+# coffeelint: disable=max_line_length
 # Description:
 #   Show open pull requests from a Github repository or organization
 #
