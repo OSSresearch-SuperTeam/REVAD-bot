@@ -32,8 +32,13 @@ module.exports = (robot) ->
         return unless max_length
 
   robot.respond /who assign (.*)\s(.*)$/i, (msg) ->
-    # read_pull msg , number, (pulls) ->
-    msg.send "#{msg.match[1]} and #{msg.match[2]}"
+    read_pull msg.match[1], msg.match[2], (pull) ->
+      if pull.assignee
+        msg.send "#{pull.assignee.login} is assignee in \##{pull.title}"
+      else
+        read_contributors msg.match[1] (cont) ->
+          contributor = msg.random cont
+          msg.send "#{contributor.login} is best assignee in \##{pull.title}"
 
     return msg
 
@@ -66,3 +71,18 @@ module.exports = (robot) ->
           base_url = base_url.replace /\/api\/v3/, ''
         msg.send "#{base_url}/#{repo}"
         response_handler pulls
+
+  read_contributors = (msg, response_handler) ->
+    repo = github.qualified_repo msg.match[1]
+    base_url = process.env.HUBOT_GITHUB_API || 'https://api.github.com'
+    url = "#{base_url}/repos/#{repo}/contributors"
+    github.get url, (commits) ->
+      if commits.message
+        msg.send "Achievement unlocked: [NEEDLE IN A HAYSTACK] repository #{commits.message}!"
+      else if commits.length == 0
+        msg.send "Achievement unlocked: [LIKE A BOSS] no commits found!"
+      else
+        if process.env.HUBOT_GITHUB_API
+          base_url = base_url.replace /\/api\/v3/, ''
+        msg.send "#{base_url}/#{repo}"
+        response_handler commits
