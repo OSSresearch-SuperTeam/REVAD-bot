@@ -32,18 +32,19 @@ module.exports = (robot) ->
         return unless max_length
 
   robot.respond /who assign (.*)\s(.*)$/i, (msg) ->
-    read_pull msg.match[1], msg.match[2], (pull) ->
+    read_pull msg, (pull) ->
       if pull.assignee
         msg.send "#{pull.assignee.login} is assignee in \##{pull.title}"
       else
-        read_contributors msg.match[1] (cont) ->
+        read_contributors msg, (cont) ->
           contributor = msg.random cont
           msg.send "#{contributor.login} is best assignee in \##{pull.title}"
 
     return msg
 
-  read_pull = (msg, number, response_handler) ->
+  read_pull = (msg, response_handler) ->
     repo = github.qualified_repo msg.match[1]
+    number = msg.match[2]
     base_url = process.env.HUBOT_GITHUB_API || 'https://api.github.com'
     url = "#{base_url}/repos/#{repo}/pulls/#{number}"
     github.get url, (pulls) ->
