@@ -34,11 +34,11 @@ module.exports = (robot) ->
   robot.respond /who assign (.*)\s(.*)$/i, (msg) ->
     read_pull msg, (pull) ->
       if pull.assignee
-        msg.send "#{pull.assignee.login} is assignee in \##{pull.title}"
+        msg.send "@#{pull.assignee.login} was assignee in \##{pull.title}"
       else
         read_contributors msg, (cont) ->
           contributor = msg.random cont
-          msg.send "#{contributor.login} is best assignee in \##{pull.title}"
+          msg.send "#@{contributor.login} is best assignee in \##{pull.title}"
 
     return msg
 
