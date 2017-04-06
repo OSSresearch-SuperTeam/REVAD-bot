@@ -34,7 +34,7 @@ module.exports = (robot) ->
         return unless max_length
 
   robot.respond /who assign (.*)\s(.*)$/i, (msg) ->
-    cmd = "python scripts\\python\\GitHubAPI.py"
+    cmd = "python scripts/python/GitHubAPI.py"
     args = [msg.match[1], msg.match[2]]
     for a in args
       cmd += " " + a
