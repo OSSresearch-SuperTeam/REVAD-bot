@@ -19,6 +19,8 @@
 #   Ikuyadeu
 # coffeelint: disable=max_line_length
 
+child_process = require 'child_process'
+
 module.exports = (robot) ->
   github = require("githubot")(robot)
   robot.respond /repo pulls (.*)$/i, (msg) ->
@@ -32,15 +34,18 @@ module.exports = (robot) ->
         return unless max_length
 
   robot.respond /who assign (.*)\s(.*)$/i, (msg) ->
-    read_pull msg, (pull) ->
-      if pull.assignee
-        msg.send "#{pull.assignee.login} is assignee in \##{pull.title}"
-      else
-        read_contributors msg, (cont) ->
-          contributor = msg.random cont
-          msg.send "#{contributor.login} is best assignee in \##{pull.title}"
+    cmd = "python scripts\\python\\github-api.py"
+    args = [process.env.HUBOT_GITHUB_TOKEN, msg.match[1], msg.match[2]]
+    for a in args
+      cmd += " " + a
+    child_process.exec "#{cmd}", (error, stdout, stderr) ->
+      if error
+        msg.send error
+      if stderr
+        msg.send stderr
+      if stdout
+        msg.send stdout
 
-    return msg
 
   read_pull = (msg, response_handler) ->
     repo = github.qualified_repo msg.match[1]
