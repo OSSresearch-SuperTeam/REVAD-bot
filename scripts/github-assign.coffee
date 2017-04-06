@@ -34,8 +34,8 @@ module.exports = (robot) ->
         return unless max_length
 
   robot.respond /who assign (.*)\s(.*)$/i, (msg) ->
-    cmd = "python scripts\\python\\github-api.py"
-    args = [process.env.HUBOT_GITHUB_TOKEN, msg.match[1], msg.match[2]]
+    cmd = "python scripts\\python\\GitHubAPI.py"
+    args = [msg.match[1], msg.match[2]]
     for a in args
       cmd += " " + a
     child_process.exec "#{cmd}", (error, stdout, stderr) ->
