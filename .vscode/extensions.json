@@ -3,6 +3,7 @@
 	// for the documentation about the extensions.json format
 	"recommendations": [
 		"slb235.vscode-coffeelint",
-		"mohsen1.prettify-json"
+		"mohsen1.prettify-json",
+		"donjayamanne.python"
 	]
 }
