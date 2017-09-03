@@ -98,4 +98,8 @@ ghe_stats = (msg, token, url) ->
                                       プッシュ数:#{results.total_pushes}.\n
                                       wiki数:#{results.total_wikis}."
       else
-        msg.send "statusCode: #{res.statusCode} -- #{body} -- type: #{type} -- #{msg.match[1]}"
+        msg.send "statusCode:
+                  #{res.statusCode}
+                  -- #{body}
+                  -- type: #{type}
+                  -- #{msg.match[1]}"
