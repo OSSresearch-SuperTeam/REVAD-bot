@@ -40,6 +40,14 @@ module.exports = (robot) ->
         if pull.assignee
           msg.send "担当:#{pull.assignee.login} タイトル:#{pull.title}"
 
+  robot.respond /repo long-issues (.*)$/i, (msg) ->
+    read_github msg, "issues?comments=0", (issues) ->
+      issues = issues.filter(isLong)
+      max_length = issues.length
+      msg.send "#{max_length}個のissueが放置されています"
+      for issue in issues
+        msg.send "タイトル:#{issue.title}\n投稿日:#{issue.created_at}投稿者:#{issue.user.login}"
+
   read_github = (msg, tails, response_handler) ->
     repo = github.qualified_repo msg.match[1]
     base_url = process.env.HUBOT_GITHUB_API || 'https://api.github.com'
@@ -53,4 +61,5 @@ module.exports = (robot) ->
         msg.send "#{base_url}/#{repo}"
         response_handler datas
   isOpen = (data) -> data.state == "open"
+  isLong = (data) -> data.comments == 0
   pollmsg = (msg) ->  "\\poll `"+ msg + "` :+1: :-1: :bug:"

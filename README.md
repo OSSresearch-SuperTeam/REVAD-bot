@@ -47,6 +47,8 @@ https://github.com/github/hubot-scripts/blob/master/src/scripts/github-commiters
 `revad-bot repo pulls <repo>`
 または
 `revad-bot repo issues <repo>`
+放置されたissueを見つけるときは
+`revad-bot repo long-issues <repo>`
 
 ## github-activity.coffee
 最近のプロジェクトの変更を取得する
