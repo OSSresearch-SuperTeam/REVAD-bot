@@ -41,3 +41,5 @@ module.exports = (robot) ->
             d = new Date(Date.parse(c.commit.committer.date)).toFormat("DD/MM HH24:MI")
             msg.send "[#{d} -> #{c.commit.committer.name}] #{c.commit.message}"
             send -= 1
+
+        msg.send "\\poll ` ` :+1: :-1: :bug:"
