@@ -51,3 +51,7 @@ https://github.com/github/hubot-scripts/blob/master/src/scripts/github-commiters
 ## github-activity.coffee
 最近のプロジェクトの変更を取得する
 `revad-bot repo show <repo>`
+
+## spacenotifire.coffee
+リポジトリ上でのやり取りを通知する
+作りかけ
