@@ -17,7 +17,7 @@
 #   (for Github enterprise users)
 #
 # Author:
-#   vquaiato
+#   Ikuyadeu
 # coffeelint: disable=max_line_length
 
 module.exports = (robot) ->
