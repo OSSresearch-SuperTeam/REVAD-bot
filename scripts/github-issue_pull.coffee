@@ -25,14 +25,20 @@ module.exports = (robot) ->
   robot.respond /repo issues (.*)$/i, (msg) ->
     read_github msg, "issues?state=all", (issues) ->
       max_length = issues.length
-      open_issue = issues.filter(isOpen)
-      msg.send pollmsg "合計:#{max_length}\n未解決:#{open_issue.length}"
+      open_issues = issues.filter(isOpen)
+      msg.send pollmsg "合計:#{max_length}\n未解決:#{open_issues.length}"
+      for issue in open_issues
+        if issue.assignee
+          msg.send "担当:#{issue.assignee.login} タイトル:#{issue.title}"
 
   robot.respond /repo pulls (.*)$/i, (msg) ->
     read_github msg, "pulls?state=all", (pulls) ->
       max_length = pulls.length
-      open_pull = pulls.filter(isOpen)
-      msg.send pollmsg "合計:#{max_length}\n未解決:#{open_pull.length}"
+      open_pulls = pulls.filter(isOpen)
+      msg.send pollmsg "合計:#{max_length}\n未解決:#{open_pulls.length}"
+      for pull in open_pulls
+        if pull.assignee
+          msg.send "担当:#{pull.assignee.login} タイトル:#{pull.title}"
 
   read_github = (msg, tails, response_handler) ->
     repo = github.qualified_repo msg.match[1]
