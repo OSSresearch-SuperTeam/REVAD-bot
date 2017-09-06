@@ -30,6 +30,7 @@ module.exports = (robot) ->
       for issue in open_issues
         if issue.assignee
           msg.send "担当:#{issue.assignee.login} タイトル:#{issue.title}"
+      msg.send pollmsg ""
 
   robot.respond /repo pulls (.*)$/i, (msg) ->
     read_github msg, "pulls?state=all", (pulls) ->
@@ -39,14 +40,16 @@ module.exports = (robot) ->
       for pull in open_pulls
         if pull.assignee
           msg.send "担当:#{pull.assignee.login} タイトル:#{pull.title}"
+      msg.send pollmsg ""
 
   robot.respond /repo long-issues (.*)$/i, (msg) ->
     read_github msg, "issues?comments=0", (issues) ->
       issues = issues.filter(isLong)
       max_length = issues.length
-      msg.send "#{max_length}個のissueが放置されています"
+      msg.send pollmsg "#{max_length}個のissueが放置されています"
       for issue in issues
         msg.send "タイトル:#{issue.title}\n投稿日:#{issue.created_at}投稿者:#{issue.user.login}"
+      msg.send pollmsg ""
 
   read_github = (msg, tails, response_handler) ->
     repo = github.qualified_repo msg.match[1]
