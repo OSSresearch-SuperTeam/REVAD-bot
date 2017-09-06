@@ -41,7 +41,13 @@ https://github.com/github/hubot-scripts/blob/master/src/scripts/github-commiters
 `revad-bot repo top-commiters <repo>`
 と送るともっとも投稿を行っているコミッターを返す
 
-### github-pulls.coffee
-プルリクエストのアサインされた開発者を表示(closeされたもののみ)
+### github-issue_pulls.coffee
+プルリクエストとissueの情報を出力
 
 `revad-bot repo pulls <repo>`
+または
+`revad-bot repo issues <repo>`
+
+## github-activity.coffee
+最近のプロジェクトの変更を取得する
+`revad-bot repo show <repo>`
