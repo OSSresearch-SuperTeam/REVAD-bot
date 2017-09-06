@@ -61,6 +61,7 @@ msg += "#{json.assignee.login}さんが#{sender.login}さんにアサインを�
 tweetForIssues = (json) -&gt;
 action = json.action
 issue = json.issue
+sender = json.sender
 
 switch action
 when 'opened'
