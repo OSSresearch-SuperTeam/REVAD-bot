@@ -38,6 +38,9 @@ https://github.com/github/hubot-scripts/blob/master/src/scripts/github-commiters
 と送るとコミッター情報を返す。
 `<repo>`はリポジトリ名(例：OSSresearch-SuperTeam/REVAD-bot)
 
+`revad-bot repo top-commiters <repo>`
+と送るともっとも投稿を行っているコミッターを返す
+
 ### github-pulls.coffee
 プルリクエストのアサインされた開発者を表示(closeされたもののみ)
 
