@@ -8,7 +8,7 @@
 #   None
 #
 # Commands:
-#   hubot help <repo> - shows help for github function
+#   hubot usage <repo> - shows help for github function
 #
 # Author:
 #   ikuyadeu
