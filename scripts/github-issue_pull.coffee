@@ -29,22 +29,21 @@ module.exports = (robot) ->
       members = Array.from(issues.map(getUser)).length
       max_length = issues.length
       open_issues = issues.filter(isOpen)
-      msg.send "/poll", pollmsg "合計:#{max_length}\n未解決:#{open_issues.length}"
+      msg.send "合計:#{max_length} 未解決:#{open_issues.length}"
       for issue in open_issues
         if issue.assignee
-          msg.send "担当:#{issue.assignee.login}\nタイトル:#{issue.title}\n投稿者:#{issue.user.login}"
+          msg.send "担当:#{issue.assignee.login} タイトル:#{issue.title} 投稿者:#{issue.user.login}"
         else
-          msg.send "担当:なし\nタイトル:#{issue.title}\n投稿者:#{issue.user.login}"
+          msg.send "担当:なし タイトル:#{issue.title} 投稿者:#{issue.user.login}"
 
   robot.respond /repo no-comment-(issue|pull)s (.*)$/i, (msg) ->
     data_name = msg.match[1]
     read_github msg, "#{data_name}s?comments=0", (issues) ->
       issues = issues.filter(isLong)
       max_length = issues.length
-      msg.send "/poll", pollmsg "#{max_length}個の#{data_name}がコメントされていません"
+      msg.send "#{max_length}個の#{data_name}がコメントされていません"
       for issue in issues
-        msg.send "タイトル:#{issue.title}\n投稿日:#{issue.created_at}\n投稿者:#{issue.user.login}"
-      msg.send "/poll", pollmsg ""
+        msg.send "タイトル:#{issue.title} 投稿日:#{issue.created_at} 投稿者:#{issue.user.login}"
 
 
   robot.respond /repo no-assign-(issue|pull)s (.*)$/i, (msg) ->
@@ -52,18 +51,18 @@ module.exports = (robot) ->
     read_github msg, "#{data_name}s", (issues) ->
       issues = issues.filter(noAssign)
       max_length = issues.length
-      msg.send "/poll", pollmsg "#{max_length}個の#{data_name}sがassignされていません"
+      msg.send "#{max_length}個の#{data_name}sがassignされていません"
       for issue in issues
-        msg.send "/poll", "タイトル:#{issue.title}\n投稿日:#{issue.created_at}投稿者:#{issue.user.login}"
+        msg.send "タイトル:#{issue.title} 投稿日:#{issue.created_at}投稿者:#{issue.user.login}"
 
   robot.respond /repo no-reaction-(issue|pull)s (.*)$/i, (msg) ->
     data_name = msg.match[1]
     read_github msg, "#{data_name}s", (issues) ->
       issues = issues.filter(noReaction)
       max_length = issues.length
-      msg.send "/poll", pollmsg "#{max_length}個の#{data_name}sがリアクションされていません"
+      msg.send "#{max_length}個の#{data_name}sがリアクションされていません"
       for issue in issues
-        msg.send "/poll", pollmsg "タイトル:#{issue.title}\n投稿日:#{issue.created_at}投稿者:#{issue.user.login}"
+        msg.send "タイトル:#{issue.title} 投稿日:#{issue.created_at}投稿者:#{issue.user.login}"
 
   read_github = (msg, tails, response_handler) ->
     repo = github.qualified_repo msg.match[2]

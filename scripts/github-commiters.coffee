@@ -55,4 +55,6 @@ module.exports = (robot) ->
         msg.send "#{base_url}/#{repo}"
         response_handler commits
   
-  pollmsg = (msg) ->  "\\poll `"+ msg + "` :+1: :-1: :ok_hand: :confused: :bug:"
+  
+  pollmsg = (msg) ->  msg
+  # pollmsg = (msg) ->  "\\poll `"+ msg + "` :+1: :-1: :ok_hand: :confused: :bug:"

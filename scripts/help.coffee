@@ -15,7 +15,7 @@
 module.exports = (robot) ->
   github = require("githubot")(robot)
   robot.respond /usage$/i, (msg) ->
-    msg.send pollmsg """
+    msg.send """
     ## 利用方法
     `<repo>`はリポジトリオーナー名/リポジトリ名(e.g.Ikuyadeu/REVAD-bot)
     ### GHE管理者向け機能
