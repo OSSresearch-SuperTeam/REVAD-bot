@@ -64,42 +64,44 @@ ghe_stats = (msg, token, url) ->
       if res.statusCode is 200
         results = JSON.parse body
         switch type
-          when "issues" then msg.send "合計issue:#{results.total_issues},
+          when "issues" then msg.send pollmsg """合計issue:#{results.total_issues},
                                        open:#{results.open_issues},
-                                       close:#{results.closed_issues}."
+                                       close:#{results.closed_issues}."""
           when "milestones"
-          then msg.send "合計milestone:#{results.total_milestones},
+          then msg.send pollmsg """合計milestone:#{results.total_milestones},
                          open:#{results.open_milestones},
-                         close:#{results.closed_milestones}."
-          when "orgs" then msg.send "合計org数:#{results.total_orgs}
+                         close:#{results.closed_milestones}."""
+          when "orgs" then msg.send pollmsg """合計org数:#{results.total_orgs}
                                      利用不能:#{results.disabled_orgs}.\n
                                      チーム:#{results.total_teams}
-                                     #{results.total_team_members}人."
+                                     #{results.total_team_members}人."""
           when "comments"
-          then msg.send "コミットコメント:#{results.total_commit_comments}.\n
+          then msg.send pollmsg """コミットコメント:#{results.total_commit_comments}.\n
                          gistコメント:#{results.total_gist_comments}.\n
                          issueコメント#{results.total_issue_comments}.\n
-                         PRコメント#{results.total_pull_request_comments}.\n"
-          when "pages" then msg.send "ページ数:#{results.total_pages}ページ."
-          when "users" then msg.send "ユーザー数:#{results.total_users}人,
+                         PRコメント#{results.total_pull_request_comments}.\n"""
+          when "pages" then msg.send pollmsg """ページ数:#{results.total_pages}ページ."""
+          when "users" then msg.send pollmsg """ユーザー数:#{results.total_users}人,
                                       管理者:#{results.admin_users}人
-                                      凍結:#{results.suspended_users}人."
-          when "gists" then msg.send "gists数:#{results.total_gists},
+                                      凍結:#{results.suspended_users}人."""
+          when "gists" then msg.send pollmsg """gists数:#{results.total_gists},
                                       private:#{results.private_gists}
-                                      public:#{results.public_gists}."
-          when "pulls" then msg.send "pull数:#{results.total_pulls},
+                                      public:#{results.public_gists}."""
+          when "pulls" then msg.send pollmsg """pull数:#{results.total_pulls},
                                       merged:#{results.merged_pulls},
                                       merge可能:#{results.mergable_pulls}
-                                      未merge#{results.unmergable_pulls}."
-          when "repos" then msg.send "リポジトリ数:#{results.total_repos},
+                                      未merge#{results.unmergable_pulls}."""
+          when "repos" then msg.send pollmsg """リポジトリ数:#{results.total_repos},
                                       ルートリポジトリ:#{results.root_repos}
                                       フォーク:#{results.fork_repos}.\n
                                       orgリポジトリ:#{results.org_repos}.\n
                                       プッシュ数:#{results.total_pushes}.\n
-                                      wiki数:#{results.total_wikis}."
+                                      wiki数:#{results.total_wikis}."""
       else
-        msg.send "statusCode:
+        msg.send """statusCode:
                   #{res.statusCode}
                   -- #{body}
                   -- type: #{type}
-                  -- #{msg.match[1]}"
+                  -- #{msg.match[1]}"""
+  
+  pollmsg = (msg) ->  "\\poll `"+ msg + "` :+1: :-1: :ok_hand: :confused: :bug:"

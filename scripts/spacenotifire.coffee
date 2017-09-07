@@ -43,20 +43,20 @@ sender = json.sender
 
 switch action
 when 'opened'
-"#{pr.user.login}さんからPull Requestをもらいました #{pr.title} #{pr.html_url}"
+    msg += "#{pr.user.login}さんからPull Requestをもらいました #{pr.title} #{pr.html_url}"
 when 'closed'
-if pr.merged
-"#{sender.login}さんがPull Requestをマージしました #{pr.title} #{pr.html_url}"
-else
-"#{sender.login}さんがPull Requestをクローズしました #{pr.title} #{pr.html_url}"
+    if pr.merged
+        msg += "#{sender.login}さんがPull Requestをマージしました #{pr.title} #{pr.html_url}"
+    else
+        msg += "#{sender.login}さんがPull Requestをクローズしました #{pr.title} #{pr.html_url}"
 when "labeled"
-msg += " #{sender.login}さんが\"#{json.label.name}\"に分類しました#{pr.title} #{pr.html_url}"
+    msg += " #{sender.login}さんが\"#{json.label.name}\"に分類しました#{pr.title} #{pr.html_url}"
 when "unlabeled"
-msg += " #{sender.login}さんが分類\"#{json.label.name}\"を取り除きました#{pr.title} #{pr.html_url}"
+    msg += " #{sender.login}さんが分類\"#{json.label.name}\"を取り除きました#{pr.title} #{pr.html_url}"
 when "assigned"
-msg += "#{json.assignee.login}さんが#{sender.login}さんにアサインされました"
+    msg += "#{json.assignee.login}さんが#{sender.login}さんにアサインされました"
 when "unassigned"
-msg += "#{json.assignee.login}さんが#{sender.login}さんにアサインを外されました"
+    msg += "#{json.assignee.login}さんが#{sender.login}さんにアサインを外されました"
 
 tweetForIssues = (json) -&gt;
 action = json.action
@@ -65,16 +65,16 @@ sender = json.sender
 
 switch action
 when 'opened'
-"#{issue.user.login}さんがIssueを上げました #{issue.title} #{issue.html_url}"
+    msg += "#{issue.user.login}さんがIssueを上げました #{issue.title} #{issue.html_url}"
 when 'closed'
-"#{sender.login}さんがIssueがcloseされました #{issue.title} #{issue.html_url}"
+    msg += "#{sender.login}さんがIssueがcloseされました #{issue.title} #{issue.html_url}"
 else
-"#{sender.login}さんがIssuetをクローズしました #{pr.title} #{pr.html_url}"
+    msg += "#{sender.login}さんがIssuetをクローズしました #{pr.title} #{pr.html_url}"
 when "labeled"
-msg += " #{sender.login}さんが\"#{json.label.name}\"に分類しました#{issue.title} #{issue.html_url}"
+    msg += " #{sender.login}さんが\"#{json.label.name}\"に分類しました#{issue.title} #{issue.html_url}"
 when "unlabeled"
-msg += " #{sender.login}さんが分類\"#{json.label.name}\"を取り除きました#{issue.title} #{issue.html_url}"
+    msg += " #{sender.login}さんが分類\"#{json.label.name}\"を取り除きました#{issue.title} #{issue.html_url}"
 when "assigned"
-msg += "#{json.assignee.login}さんが#{sender.login}さんにアサインされました#{issue.title} #{issue.html_url}"
+    msg += "#{json.assignee.login}さんが#{sender.login}さんにアサインされました#{issue.title} #{issue.html_url}"
 when "unassigned"
-msg += "#{json.assignee.login}さんが#{sender.login}さんにアサインを外されました#{issue.title} #{issue.html_url}"
+    msg += "#{json.assignee.login}さんが#{sender.login}さんにアサインを外されました#{issue.title} #{issue.html_url}"
