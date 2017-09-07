@@ -21,6 +21,7 @@
 # coffeelint: disable=max_line_length
 
 module.exports = (robot) ->
+  request = require("request")
   github = require("githubot")(robot)
   robot.respond /repo (issue|pull)s (.*)$/i, (msg) ->
     data_name = msg.match[1]
@@ -28,33 +29,41 @@ module.exports = (robot) ->
       members = Array.from(issues.map(getUser)).length
       max_length = issues.length
       open_issues = issues.filter(isOpen)
-      msg.send pollmsg "合計:#{max_length}\n未解決:#{open_issues.length}"
+      msg.send "/poll", pollmsg "合計:#{max_length}\n未解決:#{open_issues.length}"
       for issue in open_issues
         if issue.assignee
-          msg.send "担当:#{issue.assignee.login}\nタイトル:#{issue.title}\n投稿者:#{pull.user.login}"
+          msg.send "担当:#{issue.assignee.login}\nタイトル:#{issue.title}\n投稿者:#{issue.user.login}"
         else
-          msg.send "担当:なし\nタイトル:#{issue.title}\n投稿者:#{pull.user.login}"
-      msg.send pollmsg ""
+          msg.send "担当:なし\nタイトル:#{issue.title}\n投稿者:#{issue.user.login}"
 
   robot.respond /repo no-comment-(issue|pull)s (.*)$/i, (msg) ->
     data_name = msg.match[1]
     read_github msg, "#{data_name}s?comments=0", (issues) ->
       issues = issues.filter(isLong)
       max_length = issues.length
-      msg.send pollmsg "#{max_length}個の#{data_name}が放置されています"
+      msg.send "/poll", pollmsg "#{max_length}個の#{data_name}がコメントされていません"
       for issue in issues
         msg.send "タイトル:#{issue.title}\n投稿日:#{issue.created_at}\n投稿者:#{issue.user.login}"
-      msg.send pollmsg ""
+      msg.send "/poll", pollmsg ""
+
 
   robot.respond /repo no-assign-(issue|pull)s (.*)$/i, (msg) ->
     data_name = msg.match[1]
     read_github msg, "#{data_name}s", (issues) ->
       issues = issues.filter(noAssign)
       max_length = issues.length
-      msg.send pollmsg "#{max_length}個の#{data_name}sがassignされていません"
+      msg.send "/poll", pollmsg "#{max_length}個の#{data_name}sがassignされていません"
       for issue in issues
-        msg.send "タイトル:#{issue.title}\n投稿日:#{issue.created_at}投稿者:#{issue.user.login}"
-      msg.send pollmsg ""
+        msg.send "/poll", "タイトル:#{issue.title}\n投稿日:#{issue.created_at}投稿者:#{issue.user.login}"
+
+  robot.respond /repo no-reaction-(issue|pull)s (.*)$/i, (msg) ->
+    data_name = msg.match[1]
+    read_github msg, "#{data_name}s", (issues) ->
+      issues = issues.filter(noReaction)
+      max_length = issues.length
+      msg.send "/poll", pollmsg "#{max_length}個の#{data_name}sがリアクションされていません"
+      for issue in issues
+        msg.send "/poll", pollmsg "タイトル:#{issue.title}\n投稿日:#{issue.created_at}投稿者:#{issue.user.login}"
 
   read_github = (msg, tails, response_handler) ->
     repo = github.qualified_repo msg.match[2]
@@ -72,4 +81,5 @@ module.exports = (robot) ->
   isLong = (data) -> data.comments == 0
   getUser = (data) -> data.user.login
   noAssign = (data) -> data.assignees.length == 0
-  pollmsg = (msg) ->  "\\poll `"+ msg + "` :+1: :-1: :ok_hand: :confused: :bug:"
+  noReaction = (data) -> data.created_at == data.updated_at
+  pollmsg = (msg) ->  "`"+ msg + "` :+1: :-1: :ok_hand: :confused: :bug:"
