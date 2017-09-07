@@ -65,4 +65,4 @@ module.exports = (robot) ->
         response_handler datas
   isOpen = (data) -> data.state == "open"
   isLong = (data) -> data.comments == 0
-  pollmsg = (msg) ->  "\\poll `"+ msg + "` :+1: :-1: :bug:"
+  pollmsg = (msg) ->  "\\poll `"+ msg + "` :+1: :-1: :ok_hand: :confused: :bug:"
