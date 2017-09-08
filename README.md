@@ -103,4 +103,13 @@ GHE全体での情報を取得
 * Matter Mostのコマンド呼び出しへの対応
 * GitHub Enterpriseのappsへの対応
 
+## 貢献者タイプ
+* Issue reporter
+* Issue responder
+* Code contributor
+* Documentation contributor
+* Reviewer
+* Maintainer
+* Connector
+
 具体的なフィードバック、アイディアがあればemail(ikuyadeu0513@gmail.com)へ
