@@ -30,6 +30,7 @@ module.exports = (robot) ->
         msg.send "[#{commit.login}] #{commit.contributions}"
         max_length -= 1
         return unless max_length
+      msg.send pollmsg ""
 
   robot.respond /repo top-commiters? (.*)$/i, (msg) ->
     read_contributors msg, (commits) ->
@@ -37,7 +38,7 @@ module.exports = (robot) ->
       for commit in commits
         top_commiter = commit if top_commiter == null
         top_commiter = commit if commit.contributions > top_commiter.contributions
-      msg.send "[#{top_commiter.login}] #{top_commiter.contributions} :trophy:"
+      msg.send pollmsg "[#{top_commiter.login}] #{top_commiter.contributions} :trophy:"
 
   read_contributors = (msg, response_handler) ->
     repo = github.qualified_repo msg.match[1]
@@ -45,11 +46,15 @@ module.exports = (robot) ->
     url = "#{base_url}/repos/#{repo}/contributors"
     github.get url, (commits) ->
       if commits.message
-        msg.send "Achievement unlocked: [NEEDLE IN A HAYSTACK] repository #{commits.message}!"
+        msg.send pollmsg "Achievement unlocked: [NEEDLE IN A HAYSTACK] repository #{commits.message}!"
       else if commits.length == 0
-        msg.send "Achievement unlocked: [LIKE A BOSS] no commits found!"
+        msg.send pollmsg "Achievement unlocked: [LIKE A BOSS] no commits found!"
       else
         if process.env.HUBOT_GITHUB_API
           base_url = base_url.replace /\/api\/v3/, ''
         msg.send "#{base_url}/#{repo}"
         response_handler commits
+  
+  
+  pollmsg = (msg) ->  msg
+  # pollmsg = (msg) ->  "\\poll `"+ msg + "` :+1: :-1: :ok_hand: :confused: :bug:"
