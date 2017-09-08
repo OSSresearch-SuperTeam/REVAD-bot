@@ -98,4 +98,9 @@ GHE全体での情報を取得
 * :confused: 意味がわからない
 * :bug: バグ
 
+## 拡張のためのアイディア
+* Probotのapps->OAuthへの対応
+* Matter Mostのコマンド呼び出しへの対応
+* GitHub Enterpriseのappsへの対応
+
 具体的なフィードバック、アイディアがあればemail(ikuyadeu0513@gmail.com)へ
